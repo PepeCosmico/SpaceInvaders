@@ -2,9 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     menu::MenuPlugin,
-    textures::{
-        GameTextures, Textures, CRAB_IMG_PATH, OCTPUS_IMG_PATH, PLAYER_IMG_PATH, SQUID_IMG_PATH,
-    },
+    textures::{self, GameTextures, Textures},
     unit::UnitPlugin,
     GameStates,
 };
@@ -31,10 +29,10 @@ fn setup_system(mut commands: Commands, mut windows: Query<&mut Window>, assets:
     info!("Camera Spawned");
 
     let mut game_textures = GameTextures::new();
-    game_textures.insert_texture(Textures::Player, assets.load(PLAYER_IMG_PATH));
-    game_textures.insert_texture(Textures::Octopus, assets.load(OCTPUS_IMG_PATH));
-    game_textures.insert_texture(Textures::Crab, assets.load(CRAB_IMG_PATH));
-    game_textures.insert_texture(Textures::Squid, assets.load(SQUID_IMG_PATH));
+    game_textures.insert_texture(Textures::Player, assets.load(textures::PLAYER_IMG_PATH));
+    game_textures.insert_texture(Textures::Octopus, assets.load(textures::OCTPUS_IMG_PATH));
+    game_textures.insert_texture(Textures::Crab, assets.load(textures::CRAB_IMG_PATH));
+    game_textures.insert_texture(Textures::Squid, assets.load(textures::SQUID_IMG_PATH));
     commands.insert_resource(game_textures);
     info!("Game Textures: loaded");
 }

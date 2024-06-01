@@ -14,6 +14,11 @@ pub enum Textures {
     Squid,
 }
 
+pub struct TextureSheet {
+    text: Handle<Image>,
+    layout: TextureAtlasLayout,
+}
+
 #[derive(Resource)]
 pub struct GameTextures {
     textures: HashMap<Textures, Handle<Image>>,
