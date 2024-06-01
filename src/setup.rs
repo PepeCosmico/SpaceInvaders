@@ -21,7 +21,7 @@ impl Plugin for SetupPlugin {
 
 fn setup_system(mut commands: Commands, mut windows: Query<&mut Window>, assets: Res<AssetServer>) {
     let mut window = windows.single_mut();
-    window.resolution.set(600.0, 900.0);
+    window.resolution.set(768.0, 900.0);
 
     commands.spawn(Camera2dBundle {
         ..Default::default()
@@ -30,9 +30,9 @@ fn setup_system(mut commands: Commands, mut windows: Query<&mut Window>, assets:
 
     let mut game_textures = GameTextures::new();
     game_textures.insert_texture(Textures::Player, assets.load(textures::PLAYER_IMG_PATH));
-    game_textures.insert_texture(Textures::Octopus, assets.load(textures::OCTPUS_IMG_PATH));
-    game_textures.insert_texture(Textures::Crab, assets.load(textures::CRAB_IMG_PATH));
     game_textures.insert_texture(Textures::Squid, assets.load(textures::SQUID_IMG_PATH));
+    game_textures.insert_texture(Textures::Crab, assets.load(textures::CRAB_IMG_PATH));
+    game_textures.insert_texture(Textures::Octopus, assets.load(textures::OCTPUS_IMG_PATH));
     commands.insert_resource(game_textures);
     info!("Game Textures: loaded");
 }

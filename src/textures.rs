@@ -2,21 +2,16 @@ use bevy::prelude::*;
 use bevy::utils::HashMap;
 
 pub const PLAYER_IMG_PATH: &str = "player.png";
-pub const OCTPUS_IMG_PATH: &str = "octopus.png";
-pub const CRAB_IMG_PATH: &str = "crab.png";
 pub const SQUID_IMG_PATH: &str = "squid.png";
+pub const CRAB_IMG_PATH: &str = "crab.png";
+pub const OCTPUS_IMG_PATH: &str = "octopus.png";
 
 #[derive(PartialEq, Eq, Hash)]
 pub enum Textures {
     Player,
-    Octopus,
-    Crab,
     Squid,
-}
-
-pub struct TextureSheet {
-    text: Handle<Image>,
-    layout: TextureAtlasLayout,
+    Crab,
+    Octopus,
 }
 
 #[derive(Resource)]
