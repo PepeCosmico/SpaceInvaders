@@ -21,7 +21,10 @@ impl Plugin for SetupPlugin {
     }
 }
 
-fn setup_system(mut commands: Commands, assets: Res<AssetServer>) {
+fn setup_system(mut commands: Commands, mut windows: Query<&mut Window>, assets: Res<AssetServer>) {
+    let mut window = windows.single_mut();
+    window.resolution.set(600.0, 900.0);
+
     commands.spawn(Camera2dBundle {
         ..Default::default()
     });
