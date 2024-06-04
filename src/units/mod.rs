@@ -1,12 +1,16 @@
 use bevy::{app::PluginGroupBuilder, prelude::*};
 
-pub mod unit;
+mod alien;
+mod player;
+
+#[derive(Component)]
+pub struct Unit;
 
 pub struct UnitsPlugins;
 
 impl PluginGroup for UnitsPlugins {
     fn build(self) -> bevy::app::PluginGroupBuilder {
         let group = PluginGroupBuilder::start::<Self>();
-        group.add(unit::UnitPlugin)
+        group.add(alien::AlienPlugin).add(player::PlayerPlugin)
     }
 }
