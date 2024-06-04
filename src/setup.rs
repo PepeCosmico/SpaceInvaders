@@ -1,9 +1,9 @@
 use bevy::prelude::*;
 
 use crate::{
-    menu::MenuPlugin,
+    screens::ScreenPlugins,
     textures::{self, GameTextures, Textures},
-    unit::UnitPlugin,
+    units::UnitsPlugins,
     GameStates,
 };
 
@@ -14,8 +14,8 @@ impl Plugin for SetupPlugin {
         app.add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
             .init_state::<GameStates>()
             .add_systems(Startup, setup_system)
-            .add_plugins(MenuPlugin)
-            .add_plugins(UnitPlugin);
+            .add_plugins(ScreenPlugins)
+            .add_plugins(UnitsPlugins);
     }
 }
 

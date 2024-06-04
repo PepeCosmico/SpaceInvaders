@@ -2,10 +2,10 @@ use bevy::prelude::*;
 
 use crate::setup::SetupPlugin;
 
-mod menu;
+mod screens;
 mod setup;
 mod textures;
-mod unit;
+mod units;
 mod utils;
 
 fn main() {

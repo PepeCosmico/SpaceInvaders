@@ -45,6 +45,7 @@ fn spawn_player(commands: &mut Commands, textures: &Res<GameTextures>) {
         SpriteBundle {
             texture,
             transform: Transform {
+                translation: Vec3::new(0.0, -400.0, 0.0),
                 scale: Vec3::splat(4.0),
                 ..Default::default()
             },
@@ -70,9 +71,23 @@ fn spawn_aliens(
     let crab_atlas_sheet = texture_atlas_layouts.add(crab_layout);
     let octopus_atlas_sheet = texture_atlas_layouts.add(octopus_layout);
 
-    create_alien_row(commands, Squid, 300.0, squid_text, squid_atlas_sheet);
-    create_alien_row(commands, Crab, 200.0, crab_text, crab_atlas_sheet);
-    create_alien_row(commands, Octopus, 100.0, octopus_text, octopus_atlas_sheet);
+    create_alien_row(commands, Squid, 350.0, squid_text, squid_atlas_sheet);
+    create_alien_row(
+        commands,
+        Crab,
+        286.0,
+        crab_text.clone(),
+        crab_atlas_sheet.clone(),
+    );
+    create_alien_row(commands, Crab, 222.0, crab_text, crab_atlas_sheet);
+    create_alien_row(
+        commands,
+        Octopus,
+        158.0,
+        octopus_text.clone(),
+        octopus_atlas_sheet.clone(),
+    );
+    create_alien_row(commands, Octopus, 92.0, octopus_text, octopus_atlas_sheet);
 }
 
 fn create_alien_row<T: Component + Clone>(
