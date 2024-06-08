@@ -1,11 +1,8 @@
 use bevy::prelude::*;
 
 use crate::{
-    fisics::FisicsPlugin,
-    screens::ScreenPlugins,
-    textures::{self, GameTextures, Textures},
-    units::UnitsPlugins,
-    GameStates,
+    fisics::FisicsPlugin, screens::ScreenPlugins, textures::GameTexturesBuilder,
+    units::UnitsPlugins, GameStates,
 };
 
 pub struct SetupPlugin;
@@ -30,15 +27,6 @@ fn setup_system(mut commands: Commands, mut windows: Query<&mut Window>, assets:
     });
     info!("Camera Spawned");
 
-    let mut game_textures = GameTextures::new();
-    game_textures.insert_texture(Textures::Player, assets.load(textures::PLAYER_IMG_PATH));
-    game_textures.insert_texture(Textures::Squid, assets.load(textures::SQUID_IMG_PATH));
-    game_textures.insert_texture(Textures::Crab, assets.load(textures::CRAB_IMG_PATH));
-    game_textures.insert_texture(Textures::Octopus, assets.load(textures::OCTPUS_IMG_PATH));
-    game_textures.insert_texture(
-        Textures::SimpleMissile,
-        assets.load(textures::SIMPLE_MISSILE_IMG_PATH),
-    );
-    commands.insert_resource(game_textures);
+    commands.insert_resource(GameTexturesBuilder::build(assets));
     info!("Game Textures: loaded");
 }
