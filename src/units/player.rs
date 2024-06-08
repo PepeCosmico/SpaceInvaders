@@ -58,11 +58,19 @@ fn player_attack(ev_attack: &mut EventWriter<AttackEvent>, trans_player: Transfo
 
 fn move_player(mut transform_query: Query<(&mut Transform, &Moving), With<Player>>) {
     let (mut transform, moving) = transform_query.get_single_mut().unwrap();
-    transform.translation.x += match moving.0 {
-        Move::Left => -1.0,
-        Move::Right => 1.0,
-        Move::Still => 0.0,
-    }
+
+    let next_x = transform.translation.x
+        + match moving.0 {
+            Move::Left => -1.5,
+            Move::Right => 1.5,
+            Move::Still => 0.0,
+        };
+
+    transform.translation.x = match next_x {
+        ..=-359.0 => -359.0,
+        359.0.. => 359.0,
+        n => n,
+    };
 }
 
 fn player_input(
