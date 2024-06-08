@@ -8,7 +8,7 @@ use crate::{
     GameStates,
 };
 
-use super::Unit;
+use super::{attack::AttackEvent, Unit};
 
 #[derive(Component)]
 pub struct Player;
@@ -28,13 +28,13 @@ impl Plugin for PlayerPlugin {
         app.add_systems(OnEnter(GameStates::InGame), spawn_player)
             .add_systems(
                 Update,
-                (move_player_input, move_player).run_if(in_state(GameStates::InGame)),
+                (player_input, move_player).run_if(in_state(GameStates::InGame)),
             );
     }
 }
 
 fn spawn_player(mut commands: Commands, textures: Res<GameTextures>) {
-    let texture = textures.get_texture(Textures::Player).unwrap().clone();
+    let texture = textures.get_texture(Textures::Player);
     commands.spawn((
         SpriteBundle {
             texture,
@@ -51,6 +51,10 @@ fn spawn_player(mut commands: Commands, textures: Res<GameTextures>) {
     ));
 }
 
+fn player_attack(ev_attack: &mut EventWriter<AttackEvent>, trans_player: Transform) {
+    ev_attack.send(AttackEvent::new(trans_player));
+}
+
 fn move_player(mut transform_query: Query<(&mut Transform, &Moving), With<Player>>) {
     let (mut transform, moving) = transform_query.get_single_mut().unwrap();
     transform.translation.x += match moving.0 {
@@ -60,11 +64,12 @@ fn move_player(mut transform_query: Query<(&mut Transform, &Moving), With<Player
     }
 }
 
-fn move_player_input(
+fn player_input(
     mut input: EventReader<KeyboardInput>,
-    mut player_query: Query<&mut Moving, With<Player>>,
+    mut ev_attack: EventWriter<AttackEvent>,
+    mut player_query: Query<(&Transform, &mut Moving), With<Player>>,
 ) {
-    let mut player = player_query.get_single_mut().unwrap();
+    let (trans_player, mut player) = player_query.get_single_mut().unwrap();
     for event in input.read() {
         if event.state.is_pressed() && event.key_code == KeyCode::ArrowLeft {
             player.0 = Move::Left;
@@ -77,6 +82,9 @@ fn move_player_input(
         }
         if event.state == ButtonState::Released && event.key_code == KeyCode::ArrowRight {
             player.0 = Move::Still;
+        }
+        if event.state.is_pressed() && event.key_code == KeyCode::Space {
+            player_attack(&mut ev_attack, trans_player.clone());
         }
     }
 }

@@ -15,9 +15,9 @@ impl AlienBuilder {
         textures: Res<GameTextures>,
         mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     ) {
-        let squid_text = textures.get_texture(Textures::Squid).unwrap().clone();
-        let crab_text = textures.get_texture(Textures::Crab).unwrap().clone();
-        let octopus_text = textures.get_texture(Textures::Octopus).unwrap().clone();
+        let squid_text = textures.get_texture(Textures::Squid);
+        let crab_text = textures.get_texture(Textures::Crab);
+        let octopus_text = textures.get_texture(Textures::Octopus);
         let squid_layout = TextureAtlasLayout::from_grid(Vec2::new(8.0, 8.0), 1, 2, None, None);
         let crab_layout = TextureAtlasLayout::from_grid(Vec2::new(11.0, 8.0), 1, 2, None, None);
         let octopus_layout = TextureAtlasLayout::from_grid(Vec2::new(12.0, 8.0), 1, 2, None, None);

@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 use crate::setup::SetupPlugin;
 
+mod fisics;
 mod screens;
 mod setup;
 mod textures;

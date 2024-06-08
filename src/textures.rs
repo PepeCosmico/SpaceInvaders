@@ -5,6 +5,7 @@ pub const PLAYER_IMG_PATH: &str = "player.png";
 pub const SQUID_IMG_PATH: &str = "squid.png";
 pub const CRAB_IMG_PATH: &str = "crab.png";
 pub const OCTPUS_IMG_PATH: &str = "octopus.png";
+pub const SIMPLE_MISSILE_IMG_PATH: &str = "simple_missile.png";
 
 #[derive(PartialEq, Eq, Hash)]
 pub enum Textures {
@@ -12,6 +13,7 @@ pub enum Textures {
     Squid,
     Crab,
     Octopus,
+    SimpleMissile,
 }
 
 #[derive(Resource)]
@@ -30,7 +32,7 @@ impl GameTextures {
         self.textures.insert(key, value);
     }
 
-    pub fn get_texture(&self, key: Textures) -> Option<&Handle<Image>> {
-        self.textures.get(&key)
+    pub fn get_texture(&self, key: Textures) -> Handle<Image> {
+        self.textures.get(&key).unwrap().clone()
     }
 }
