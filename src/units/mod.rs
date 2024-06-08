@@ -4,6 +4,12 @@ mod alien;
 mod attack;
 mod player;
 
+#[derive(Component, Clone, Copy)]
+pub enum Side {
+    Alien,
+    Player,
+}
+
 #[derive(Component)]
 pub struct Unit;
 

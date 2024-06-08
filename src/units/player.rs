@@ -8,7 +8,7 @@ use crate::{
     GameStates,
 };
 
-use super::{attack::AttackEvent, Unit};
+use super::{attack::AttackEvent, Side, Unit};
 
 #[derive(Component)]
 pub struct Player;
@@ -47,12 +47,13 @@ fn spawn_player(mut commands: Commands, textures: Res<GameTextures>) {
         },
         Unit,
         Player,
+        Side::Player,
         Moving(Move::Still),
     ));
 }
 
 fn player_attack(ev_attack: &mut EventWriter<AttackEvent>, trans_player: Transform) {
-    ev_attack.send(AttackEvent::new(trans_player));
+    ev_attack.send(AttackEvent::new(trans_player, Side::Player));
 }
 
 fn move_player(mut transform_query: Query<(&mut Transform, &Moving), With<Player>>) {

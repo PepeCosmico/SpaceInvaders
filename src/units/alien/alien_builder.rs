@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     textures::{GameTextures, Textures},
-    units::Unit,
+    units::{Side, Unit},
 };
 
 use super::{Alien, AlienType};
@@ -105,6 +105,7 @@ impl AlienBuilder {
             Alien {
                 _alien_type: alien.clone(),
             },
+            Side::Alien,
         ));
     }
 }

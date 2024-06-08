@@ -1,21 +1,23 @@
 use bevy::prelude::*;
 
 use crate::{
-    fisics::Velocity,
     textures::{GameTextures, Textures},
     GameStates,
 };
+
+use super::Side;
 
 mod missile;
 
 #[derive(Event)]
 pub struct AttackEvent {
     transform: Transform,
+    side: Side,
 }
 
 impl AttackEvent {
-    pub fn new(transform: Transform) -> Self {
-        Self { transform }
+    pub fn new(transform: Transform, side: Side) -> Self {
+        Self { transform, side }
     }
 }
 
@@ -34,13 +36,11 @@ fn spawn_attack(
     textures: Res<GameTextures>,
 ) {
     for ev in ev_attack.read() {
-        commands.spawn((
-            SpriteBundle {
-                texture: textures.get_texture(Textures::SimpleMissile),
-                transform: ev.transform,
-                ..Default::default()
-            },
-            Velocity(Vec2::new(0.0, 2.0)),
-        ));
+        missile::spawn_missile(
+            &mut commands,
+            textures.get_texture(Textures::SimpleMissile),
+            ev.transform,
+            ev.side,
+        );
     }
 }
