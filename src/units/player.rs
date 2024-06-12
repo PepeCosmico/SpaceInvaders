@@ -1,9 +1,11 @@
 use bevy::{
     input::{keyboard::KeyboardInput, ButtonState},
+    math::bounding::Aabb2d,
     prelude::*,
 };
 
 use crate::{
+    fisics::Hitbox,
     textures::{GameTextures, Textures},
     GameStates,
 };
@@ -49,6 +51,7 @@ fn spawn_player(mut commands: Commands, textures: Res<GameTextures>) {
         Player,
         Side::Player,
         Moving(Move::Still),
+        Hitbox::new(Vec2::new(26.0, 16.0)),
     ));
 }
 

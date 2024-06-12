@@ -1,9 +1,20 @@
-use bevy::prelude::*;
+use bevy::{math::bounding::Aabb2d, prelude::*};
 
 use crate::GameStates;
 
 #[derive(Component)]
 pub struct Velocity(pub Vec2);
+
+#[derive(Component)]
+pub struct Hitbox {
+    pub rect: Vec2,
+}
+
+impl Hitbox {
+    pub fn new(half_size: Vec2) -> Self {
+        Self { rect: half_size }
+    }
+}
 
 pub struct FisicsPlugin;
 

@@ -2,7 +2,8 @@ use bevy::{app::PluginGroupBuilder, prelude::*};
 
 mod alien;
 mod attack;
-mod player;
+pub mod hitbox;
+pub mod player;
 
 #[derive(Component, Clone, Copy)]
 pub enum Side {
@@ -22,5 +23,6 @@ impl PluginGroup for UnitsPlugins {
             .add(alien::AlienPlugin)
             .add(player::PlayerPlugin)
             .add(attack::AttackPlugin)
+            .add(hitbox::HitboxPlugin)
     }
 }
