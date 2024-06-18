@@ -1,27 +1,29 @@
 use bevy::{
     ecs::query::QueryFilter,
-    math::bounding::{Aabb2d, BoundingVolume, IntersectsVolume},
+    math::bounding::{Aabb2d, IntersectsVolume},
     prelude::*,
 };
 
-use crate::{fisics::Hitbox, GameStates};
+use crate::fisics::Hitbox;
 
-use super::Unit;
+pub trait CollisionEvent: Event {
+    fn new(ent1: Entity, ent2: Entity) -> Self;
+}
 
 pub struct HitboxPlugin;
 
 impl Plugin for HitboxPlugin {
-    fn build(&self, app: &mut App) {}
+    fn build(&self, _app: &mut App) {}
 }
 
 pub fn collition_event_writer<T, S, E>(
     ent_query_1: Query<(Entity, &Transform, &Hitbox), T>,
     ent_query_2: Query<(Entity, &Transform, &Hitbox), S>,
-    event_writer: EventWriter<E>,
+    mut event_writer: EventWriter<E>,
 ) where
     T: QueryFilter,
     S: QueryFilter,
-    E: Event,
+    E: CollisionEvent,
 {
     for (ent1, trans1, hitbox1) in ent_query_1.iter() {
         for (ent2, trans2, hitbox2) in ent_query_2.iter() {
@@ -35,6 +37,7 @@ pub fn collition_event_writer<T, S, E>(
             );
 
             if aabb1.intersects(&aabb2) {
+                event_writer.send(CollisionEvent::new(ent1, ent2));
                 info!("collision");
             }
         }

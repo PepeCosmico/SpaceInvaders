@@ -21,8 +21,8 @@ pub fn spawn_missile(
         Velocity(Vec2::new(
             0.0,
             match side {
-                Side::Player => 3.0,
-                Side::Alien => -3.0,
+                Side::Player => 8.0,
+                Side::Alien => -8.0,
             },
         )),
         side,

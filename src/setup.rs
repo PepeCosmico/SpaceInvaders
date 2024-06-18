@@ -4,7 +4,11 @@ use crate::{
     fisics::{FisicsPlugin, Hitbox},
     screens::ScreenPlugins,
     textures::{GameTextures, GameTexturesBuilder},
-    units::{hitbox, player::Player, UnitsPlugins},
+    units::{
+        hitbox::{self, CollisionEvent},
+        player::Player,
+        UnitsPlugins,
+    },
     GameStates,
 };
 
@@ -14,6 +18,7 @@ impl Plugin for SetupPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
             .init_state::<GameStates>()
+            .insert_resource(Time::<Fixed>::from_hz(60.0))
             .add_event::<TestEvent>()
             .add_systems(Startup, setup_system)
             .add_plugins(FisicsPlugin)
@@ -43,7 +48,18 @@ fn setup_system(mut commands: Commands, mut windows: Query<&mut Window>, assets:
 #[derive(Component)]
 pub struct Test;
 #[derive(Event)]
-pub struct TestEvent;
+pub struct TestEvent {
+    _ent1: Entity,
+    _ent2: Entity,
+}
+impl CollisionEvent for TestEvent {
+    fn new(ent1: Entity, ent2: Entity) -> Self {
+        Self {
+            _ent1: ent1,
+            _ent2: ent2,
+        }
+    }
+}
 
 fn test(mut commands: Commands, textures: Res<GameTextures>) {
     commands.spawn((

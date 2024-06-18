@@ -1,4 +1,4 @@
-use bevy::{math::bounding::Aabb2d, prelude::*};
+use bevy::prelude::*;
 
 use crate::GameStates;
 
@@ -21,7 +21,7 @@ pub struct FisicsPlugin;
 impl Plugin for FisicsPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
-            Update,
+            FixedUpdate,
             calculate_movement.run_if(in_state(GameStates::InGame)),
         );
     }

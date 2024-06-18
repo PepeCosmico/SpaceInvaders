@@ -1,6 +1,5 @@
 use bevy::{
     input::{keyboard::KeyboardInput, ButtonState},
-    math::bounding::Aabb2d,
     prelude::*,
 };
 
