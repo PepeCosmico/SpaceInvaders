@@ -1,15 +1,8 @@
 use bevy::prelude::*;
 
 use crate::{
-    fisics::{FisicsPlugin, Hitbox},
-    screens::ScreenPlugins,
-    textures::{GameTextures, GameTexturesBuilder},
-    units::{
-        hitbox::{self, CollisionEvent},
-        player::Player,
-        UnitsPlugins,
-    },
-    GameStates,
+    fisics::FisicsPlugin, screens::ScreenPlugins, textures::GameTexturesBuilder,
+    units::UnitsPlugins, GameStates,
 };
 
 pub struct SetupPlugin;
@@ -19,16 +12,10 @@ impl Plugin for SetupPlugin {
         app.add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
             .init_state::<GameStates>()
             .insert_resource(Time::<Fixed>::from_hz(60.0))
-            .add_event::<TestEvent>()
             .add_systems(Startup, setup_system)
             .add_plugins(FisicsPlugin)
             .add_plugins(ScreenPlugins)
-            .add_plugins(UnitsPlugins)
-            .add_systems(OnEnter(GameStates::InGame), test)
-            .add_systems(
-                Update,
-                hitbox::collition_event_writer::<With<Test>, With<Player>, TestEvent>,
-            );
+            .add_plugins(UnitsPlugins);
     }
 }
 
@@ -43,36 +30,4 @@ fn setup_system(mut commands: Commands, mut windows: Query<&mut Window>, assets:
 
     commands.insert_resource(GameTexturesBuilder::build(assets));
     info!("Game Textures: loaded");
-}
-
-#[derive(Component)]
-pub struct Test;
-#[derive(Event)]
-pub struct TestEvent {
-    _ent1: Entity,
-    _ent2: Entity,
-}
-impl CollisionEvent for TestEvent {
-    fn new(ent1: Entity, ent2: Entity) -> Self {
-        Self {
-            _ent1: ent1,
-            _ent2: ent2,
-        }
-    }
-}
-
-fn test(mut commands: Commands, textures: Res<GameTextures>) {
-    commands.spawn((
-        SpriteBundle {
-            texture: textures.get_texture(crate::textures::Textures::SimpleMissile),
-            transform: Transform {
-                translation: Vec3::new(300.0, -400.0, 0.0),
-                scale: Vec3::splat(6.0),
-                ..Default::default()
-            },
-            ..Default::default()
-        },
-        Test,
-        Hitbox::new(Vec2::new(3.0, 15.0)),
-    ));
 }

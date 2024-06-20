@@ -4,7 +4,9 @@ use bevy::{
     prelude::*,
 };
 
-use crate::fisics::Hitbox;
+use crate::{fisics::Hitbox, units::attack::missile::Missile, GameStates};
+
+use super::{alien::Alien, attack::missile::MissileCollisionEvent};
 
 pub trait CollisionEvent: Event {
     fn new(ent1: Entity, ent2: Entity) -> Self;
@@ -13,7 +15,17 @@ pub trait CollisionEvent: Event {
 pub struct HitboxPlugin;
 
 impl Plugin for HitboxPlugin {
-    fn build(&self, _app: &mut App) {}
+    fn build(&self, app: &mut App) {
+        app.add_systems(
+            FixedUpdate,
+            collition_event_writer::<
+                (With<Missile>, With<Hitbox>),
+                (With<Alien>, With<Hitbox>),
+                MissileCollisionEvent,
+            >
+                .run_if(in_state(GameStates::InGame)),
+        );
+    }
 }
 
 pub fn collition_event_writer<T, S, E>(

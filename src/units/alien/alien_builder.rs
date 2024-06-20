@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
+    fisics::Hitbox,
     textures::{GameTextures, Textures},
     units::{Side, Unit},
 };
@@ -106,6 +107,11 @@ impl AlienBuilder {
                 _alien_type: alien.clone(),
             },
             Side::Alien,
+            Hitbox::new(match alien {
+                AlienType::Crab => Vec2::new(11.0 * 2.0, 8.0 * 2.0),
+                AlienType::Octopus => Vec2::new(12.0 * 2.0, 8.0 * 2.0),
+                AlienType::Squid => Vec2::new(8.0 * 2.0, 8.0 * 2.0),
+            }),
         ));
     }
 }

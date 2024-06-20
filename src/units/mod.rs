@@ -1,7 +1,7 @@
 use bevy::{app::PluginGroupBuilder, prelude::*};
 
 mod alien;
-mod attack;
+pub mod attack;
 pub mod hitbox;
 pub mod player;
 
