@@ -50,7 +50,6 @@ pub fn collition_event_writer<T, S, E>(
 
             if aabb1.intersects(&aabb2) {
                 event_writer.send(CollisionEvent::new(ent1, ent2));
-                info!("collision");
             }
         }
     }

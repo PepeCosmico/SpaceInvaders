@@ -6,7 +6,7 @@ use crate::{
     units::{Side, Unit},
 };
 
-use super::{Alien, AlienType};
+use super::{Alien, AlienCount, AlienType};
 
 pub struct AlienBuilder;
 
@@ -14,6 +14,7 @@ impl AlienBuilder {
     pub fn spawn_aliens(
         mut commands: Commands,
         textures: Res<GameTextures>,
+        mut alien_count: ResMut<AlienCount>,
         mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     ) {
         let squid_text = textures.get_texture(Textures::Squid);
@@ -28,6 +29,7 @@ impl AlienBuilder {
 
         Self::spawn_line(
             &mut commands,
+            &mut alien_count,
             AlienType::Squid,
             350.0,
             squid_text,
@@ -35,6 +37,7 @@ impl AlienBuilder {
         );
         Self::spawn_line(
             &mut commands,
+            &mut alien_count,
             AlienType::Crab,
             286.0,
             crab_text.clone(),
@@ -42,6 +45,7 @@ impl AlienBuilder {
         );
         Self::spawn_line(
             &mut commands,
+            &mut alien_count,
             AlienType::Crab,
             222.0,
             crab_text,
@@ -49,6 +53,7 @@ impl AlienBuilder {
         );
         Self::spawn_line(
             &mut commands,
+            &mut alien_count,
             AlienType::Octopus,
             158.0,
             octopus_text.clone(),
@@ -56,6 +61,7 @@ impl AlienBuilder {
         );
         Self::spawn_line(
             &mut commands,
+            &mut alien_count,
             AlienType::Octopus,
             92.0,
             octopus_text,
@@ -65,6 +71,7 @@ impl AlienBuilder {
 
     fn spawn_line(
         commands: &mut Commands,
+        alien_count: &mut ResMut<AlienCount>,
         alien: AlienType,
         height: f32,
         texture: Handle<Image>,
@@ -73,6 +80,7 @@ impl AlienBuilder {
         for i in 0..11 {
             Self::spawn_alien(
                 commands,
+                alien_count.get_and_count(),
                 alien,
                 Transform {
                     translation: Vec3::new(-320.0 + i as f32 * 16.0 * 4.0, height, 0.0),
@@ -87,6 +95,7 @@ impl AlienBuilder {
 
     fn spawn_alien(
         commands: &mut Commands,
+        alien_id: u8,
         alien: AlienType,
         transform: Transform,
         texture: Handle<Image>,
@@ -104,6 +113,7 @@ impl AlienBuilder {
             },
             Unit,
             Alien {
+                id: alien_id,
                 _alien_type: alien.clone(),
             },
             Side::Alien,
