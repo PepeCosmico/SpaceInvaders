@@ -51,18 +51,19 @@ impl Plugin for MovementPlugin {
 
 fn move_alien(
     mut alien_turn: ResMut<AlienMovement>,
-    mut aliens_query: Query<(&mut Transform, &Alien, &Hitbox)>,
+    mut aliens_query: Query<(&mut Transform, &Alien, &Hitbox, &mut TextureAtlas)>,
 ) {
-    for (mut transform, alien, hitbox) in aliens_query.iter_mut() {
+    for (mut transform, alien, hitbox, mut texture_atlas) in aliens_query.iter_mut() {
         if alien.id == *alien_turn.aliens.get(alien_turn.turn as usize).unwrap() {
             transform.translation.x += 4.0 * alien_turn.direction.get_num();
             if transform.translation.x > 384.0 - hitbox.rect.x {
                 alien_turn.direction.change();
                 transform.translation.x = 384.0 - hitbox.rect.x;
-            } else if transform.translation.x > -384.0 + hitbox.rect.x {
+            } else if transform.translation.x < -384.0 + hitbox.rect.x {
                 alien_turn.direction.change();
                 transform.translation.x = -384.0 + hitbox.rect.x;
             }
+            texture_atlas.index = (texture_atlas.index + 1) % 2;
             break;
         }
     }
